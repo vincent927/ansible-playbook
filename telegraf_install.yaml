@@ -1,0 +1,14 @@
+- name: install telegraf
+  hosts: dev[4-7].ziztour.loc
+  remote_user: root
+  tasks:
+  - name: Copy rpm to client
+    copy: src="/data/soft/telegraf-1.2.1.x86_64.rpm" dest="/data/soft"
+  - name: Install telegraf
+    yum:
+        name: /data/soft/telegraf-1.2.1.x86_64.rpm
+        state: present
+  - name: Copy telegraf.conf to client
+    copy: src="/etc/telegraf/telegraf.conf" dest="/etc/telegraf"
+  - name: Start telegraf service
+    service: name=telegraf state=started
